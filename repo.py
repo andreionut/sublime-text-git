@@ -163,7 +163,12 @@ class GitPullCurrentBranchCommand(GitWindowCommand):
 
 class GitPushCommand(GitWindowCommand):
     def run(self):
-        self.run_command(['git', 'push'], callback=self.panel)
+        command = ['git', 'push']
+        s = sublime.load_settings("Git.sublime-settings")
+        if s.get("set_upstream"):
+            command.extend(["--set-upstream"])
+
+        self.run_command(command, callback=self.panel)
 
 
 class GitPushCurrentBranchCommand(GitPullCurrentBranchCommand):
